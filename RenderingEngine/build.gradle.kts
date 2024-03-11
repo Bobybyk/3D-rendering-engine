@@ -1,4 +1,5 @@
 val lwjglVersion = "3.3.3"
+val jomlVersion = "1.10.5"
 
 val lwjglNatives = Pair(
         System.getProperty("os.name")!!,
@@ -39,6 +40,8 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+
+    implementation(platform("org.lwjgl:lwjgl-bom:$lwjglVersion"))
 
     implementation("org.lwjgl", "lwjgl")
     implementation("org.lwjgl", "lwjgl-assimp")
@@ -126,4 +129,5 @@ dependencies {
     runtimeOnly("org.lwjgl", "lwjgl-xxhash", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-yoga", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-zstd", classifier = lwjglNatives)
+    implementation("org.joml", "joml", jomlVersion)
 }
