@@ -5,6 +5,7 @@ import com.bobybyk.core.ObjectLoader;
 import com.bobybyk.core.RenderManager;
 import com.bobybyk.core.WindowManager;
 import com.bobybyk.core.entity.Model;
+import com.bobybyk.core.entity.Texture;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -30,18 +31,24 @@ public class TestGame implements Logic {
     public void init() throws Exception {
         renderer.init();
         float[] vertices = {
-            -0.5f, 0.5f, 0.f,
-            -0.5f, -0.5f, 0.f,
-            0.5f, -0.5f, 0.f,
-            0.5f, -0.5f, 0f,
-            0.5f, 0.5f, 0f,
-            -0.5f, 0.5f, 0f
+                -0.5f,  0.5f, 0f,
+                -0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f,  0.5f, 0f,
         };
         int[] indices = {
                 0, 1, 3,
                 3, 1, 2
         };
-        model = loader.loadModel(vertices, indices);
+
+        float[] textureCoords = {
+                0, 0,
+                0, 1,
+                1, 1,
+                1, 0
+        };
+        model = loader.loadModel(vertices, textureCoords, indices);
+        model.setTexture(new Texture(loader.loadTexture("assets/stone.png")));
     }
 
     /**
