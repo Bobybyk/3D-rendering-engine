@@ -1,8 +1,10 @@
 package com.bobybyk.test;
 
 import com.bobybyk.core.Logic;
+import com.bobybyk.core.ObjectLoader;
 import com.bobybyk.core.RenderManager;
 import com.bobybyk.core.WindowManager;
+import com.bobybyk.core.entity.Model;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -11,11 +13,14 @@ public class TestGame implements Logic {
     private float color = 0.0f;
 
     private final RenderManager renderer;
+    private final ObjectLoader loader;
     private final WindowManager window;
 
+    private Model model;
     public TestGame() {
         renderer = new RenderManager();
         window = Launcher.getWindow();
+        loader = new ObjectLoader();
     }
 
     /**
@@ -24,6 +29,15 @@ public class TestGame implements Logic {
     @Override
     public void init() throws Exception {
         renderer.init();
+        float[] vertices = {
+            -0.5f, 0.5f, 0.f,
+            -0.5f, -0.5f, 0.f,
+            0.5f, -0.5f, 0.f,
+            0.5f, -0.5f, 0f,
+            0.5f, 0.5f, 0f,
+            -0.5f, 0.5f, 0f
+        };
+        model = loader.loadModel(vertices);
     }
 
     /**
@@ -62,7 +76,7 @@ public class TestGame implements Logic {
         }
 
         window.setClearColor(color, color, color, 0.0f);
-        renderer.clear();
+        renderer.render(model);
     }
 
     /**
@@ -71,5 +85,6 @@ public class TestGame implements Logic {
     @Override
     public void cleanup() {
         renderer.cleanup();
+        loader.cleanup();
     }
 }
