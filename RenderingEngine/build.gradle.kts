@@ -1,4 +1,5 @@
 val lwjglVersion = "3.3.3"
+
 val jomlVersion = "1.10.5"
 
 val lwjglNatives = Pair(
@@ -113,7 +114,7 @@ dependencies {
     runtimeOnly("org.lwjgl", "lwjgl-openvr", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-openxr", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-opus", classifier = lwjglNatives)
-    runtimeOnly("org.lwjgl", "lwjgl-ovr", classifier = lwjglNatives)
+    if (lwjglNatives == "natives-linux") runtimeOnly("org.lwjgl", "lwjgl-ovr", classifier = "sources") else runtimeOnly("org.lwjgl", "lwjgl-ovr", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-par", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-remotery", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-rpmalloc", classifier = lwjglNatives)
