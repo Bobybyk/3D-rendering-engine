@@ -4,8 +4,10 @@ import com.bobybyk.core.Logic;
 import com.bobybyk.core.ObjectLoader;
 import com.bobybyk.core.RenderManager;
 import com.bobybyk.core.WindowManager;
+import com.bobybyk.core.entity.Entity;
 import com.bobybyk.core.entity.Model;
 import com.bobybyk.core.entity.Texture;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -17,7 +19,7 @@ public class TestGame implements Logic {
     private final ObjectLoader loader;
     private final WindowManager window;
 
-    private Model model;
+    private Entity entity;
     public TestGame() {
         renderer = new RenderManager();
         window = Launcher.getWindow();
@@ -47,8 +49,10 @@ public class TestGame implements Logic {
                 1, 1,
                 1, 0
         };
-        model = loader.loadModel(vertices, textureCoords, indices);
+        Model model = loader.loadModel(vertices, textureCoords, indices);
         model.setTexture(new Texture(loader.loadTexture("assets/stone.png")));
+
+        entity = new Entity(model, new Vector3f(1, 0, 0), new Vector3f(0, 0, 0), 1);
     }
 
     /**
@@ -74,6 +78,10 @@ public class TestGame implements Logic {
             color = 1.0f;
         else if (color <= 0)
             color = 0.0f;
+
+        if(entity.getPosition().x < -1.5f)
+            entity.getPosition().x = 1.5f;
+        entity.getPosition().x -= 0.01f;
     }
 
     /**
@@ -87,7 +95,7 @@ public class TestGame implements Logic {
         }
 
         window.setClearColor(color, color, color, 0.0f);
-        renderer.render(model);
+        renderer.render(entity);
     }
 
     /**
