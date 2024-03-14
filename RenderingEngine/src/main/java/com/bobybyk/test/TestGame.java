@@ -4,6 +4,8 @@ import com.bobybyk.core.*;
 import com.bobybyk.core.entity.Entity;
 import com.bobybyk.core.entity.Model;
 import com.bobybyk.core.entity.Texture;
+import com.bobybyk.core.utils.Consts;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -101,14 +103,19 @@ public class TestGame implements Logic {
     public void input() {
         cameraIncrement.set(0, 0, 0);
 
-        if(window.isKeyPressed(GLFW.GLFW_KEY_Z))
+        if(window.isKeyPressed(GLFW.GLFW_KEY_W))
             cameraIncrement.z = -1;
         if(window.isKeyPressed(GLFW.GLFW_KEY_S))
             cameraIncrement.z = 1;
 
         if(window.isKeyPressed(GLFW.GLFW_KEY_A))
-            cameraIncrement.y = -1;
+            cameraIncrement.x = -1;
         if(window.isKeyPressed(GLFW.GLFW_KEY_D))
+            cameraIncrement.x = 1;
+
+        if(window.isKeyPressed(GLFW.GLFW_KEY_Z))
+            cameraIncrement.y = -1;
+        if(window.isKeyPressed(GLFW.GLFW_KEY_X))
             cameraIncrement.y = 1;
     }
 
@@ -116,9 +123,12 @@ public class TestGame implements Logic {
      *
      */
     @Override
-    public void update() {
+    public void update(float interval, MouseInput mouseInput) {
         camera.movePosition(cameraIncrement.x * CAMERA_MOVE_SPEED, cameraIncrement.y * CAMERA_MOVE_SPEED, cameraIncrement.z * CAMERA_MOVE_SPEED);
-
+        if (mouseInput.isRightButtonPressed()) {
+            Vector2f rotateVector = mouseInput.getDisplayVector();
+            camera.moveRotation(rotateVector.x * Consts.MOUSE_SENITIVITY, rotateVector.y * Consts.MOUSE_SENITIVITY, 0);
+        }
         entity.incrementRotation(0.0f, 0.05f, 0.0f);
     }
 
