@@ -37,9 +37,8 @@ public class TestGame implements Logic {
     public void init() throws Exception {
         renderer.init();
 
-        Model model = loader.loadOBJModel("/models/tree.obj");
-        model.setTexture(new Texture(loader.loadTexture("assets/stone.png")));
-
+        Model model = loader.loadOBJModel("/models/bottle.obj");
+        model.setTexture(new Texture(loader.loadTexture("assets/green.png")), 1f);
         entity = new Entity(model, new Vector3f(0, 0, -5), new Vector3f(0, 0, 0), 1);
     }
 
@@ -71,12 +70,12 @@ public class TestGame implements Logic {
      */
     @Override
     public void update(float interval, MouseInput mouseInput) {
-        camera.movePosition(cameraIncrement.x * CAMERA_MOVE_SPEED, cameraIncrement.y * CAMERA_MOVE_SPEED, cameraIncrement.z * CAMERA_MOVE_SPEED);
+        camera.movePosition(cameraIncrement.x * Consts.CAMERA_STEP, cameraIncrement.y * Consts.CAMERA_STEP, cameraIncrement.z * Consts.CAMERA_STEP);
         if (mouseInput.isRightButtonPressed()) {
             Vector2f rotateVector = mouseInput.getDisplayVector();
             camera.moveRotation(rotateVector.x * Consts.MOUSE_SENITIVITY, rotateVector.y * Consts.MOUSE_SENITIVITY, 0);
         }
-        entity.incrementRotation(0.0f, 0.05f, 0.0f);
+        entity.incrementRotation(0.0f, 0.25f, 0.0f);
     }
 
     /**
@@ -84,12 +83,7 @@ public class TestGame implements Logic {
      */
     @Override
     public void render() {
-        if(window.isResize()) {
-            GL11.glViewport(0, 0, window.getWidth(), window.getHeight());
-            window.setResize(true);
-        }
 
-        window.setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         renderer.render(entity, camera);
     }
 
